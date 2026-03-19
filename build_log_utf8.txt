@@ -1,0 +1,24 @@
+
+> linkapp@0.1.0 build
+> next build
+
+▲ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 5.5s
+  Running TypeScript ...
+Failed to compile.
+
+./src/middleware.ts:10:16
+Type error: Property 'protect' does not exist on type 'Promise<SessionAuthWithRedirect>'.
+
+[0m [90m  8 |[39m [36mexport[39m [36mdefault[39m clerkMiddleware((auth[33m,[39m request) [33m=>[39m {
+ [90m  9 |[39m     [36mif[39m ([33m![39misPublicRoute(request)) {
+[31m[1m>[22m[39m[90m 10 |[39m         auth()[33m.[39mprotect()[33m;[39m
+ [90m    |[39m                [31m[1m^[22m[39m
+ [90m 11 |[39m     }
+ [90m 12 |[39m })[33m;[39m
+ [90m 13 |[39m[0m
+Next.js build worker exited with code: 1 and signal: null

@@ -1,0 +1,1 @@
+{"error":"Failed to save to database","details":{"code":"PGRST205","details":null,"hint":null,"message":"Could not find the table 'public.links' in the schema cache"}}
