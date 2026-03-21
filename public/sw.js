@@ -8,6 +8,10 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-    // Just pass through, no caching
-    e.respondWith(fetch(e.request));
+    e.respondWith(
+        fetch(e.request).catch(() => new Response(
+            '<html><head><title>Offline</title></head><body style="padding: 2rem; font-family: sans-serif; text-align: center; background: #020617; color: white;"><h1>LinkManager is Offline</h1><p>Please check your internet connection to save or view links.</p></body></html>',
+            { headers: { 'Content-Type': 'text/html' } }
+        ))
+    );
 });

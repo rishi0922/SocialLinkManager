@@ -1,6 +1,7 @@
 {
     "name": "LinkManager",
     "short_name": "Links",
+    "id": "/",
     "description": "Save, categorize, and discover your shared links from social media.",
     "start_url": "/",
     "display": "standalone",
