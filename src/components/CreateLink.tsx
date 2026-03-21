@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Plus, Link as LinkIcon, Loader2, BookmarkPlus, Sparkles } from "lucide-react";
+import { Link as LinkIcon, Loader2, BookmarkPlus, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
     const [url, setUrl] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState("");
+    const [, setError] = useState("");
     const [currentOrigin, setCurrentOrigin] = useState("");
 
     useEffect(() => {

@@ -44,7 +44,7 @@ function ShareReceiver() {
                 } else {
                     setStatus("Failed to save the link. It might be invalid.");
                 }
-            } catch (e) {
+            } catch {
                 setStatus("An error occurred while saving.");
             }
 

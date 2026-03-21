@@ -13,7 +13,7 @@ export async function GET() {
 
         const links = await sql`SELECT * FROM links WHERE user_id = ${userId} ORDER BY created_at DESC;`;
         return NextResponse.json({ success: true, data: links });
-    } catch (error: any) {
+    } catch (error) {
         console.error("Error fetching links:", error);
         return NextResponse.json({ error: 'Failed to fetch links' }, { status: 500 });
     }
@@ -76,7 +76,7 @@ export async function POST(req: Request) {
         }
 
         // 2. Categorize using Gemini + URL heuristics
-        let categoryList: string[] = [];
+        const categoryList: string[] = [];
 
         // Guaranteed domain-based tags
         const urlLower = url.toLowerCase();
@@ -147,9 +147,9 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Failed to save to database', details: dbError }, { status: 500 });
         }
 
-    } catch (error: any) {
+    } catch (error) {
         console.error("Error processing link:", error);
-        return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal Server Error' }, { status: 500 });
     }
 }
 
@@ -169,7 +169,7 @@ export async function DELETE(req: Request) {
         await sql`DELETE FROM links WHERE id = ${id} AND user_id = ${userId}`;
 
         return NextResponse.json({ success: true });
-    } catch (error: any) {
+    } catch (error) {
         console.error("Error deleting link:", error);
         return NextResponse.json({ error: 'Failed to delete link' }, { status: 500 });
     }
