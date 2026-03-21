@@ -28,7 +28,7 @@ export default async function RootLayout({
       <html lang="en" className="dark">
         <body className={`${outfit.variable} antialiased min-h-screen selection:bg-indigo-500/30 flex flex-col`}>
           <InstallPWA />
-          <header className="flex justify-between items-center p-6 border-b border-white/5 bg-slate-950/50 backdrop-blur-md">
+          <header className="flex justify-between items-center p-4 sm:p-6 border-b border-white/5 bg-slate-950/50 backdrop-blur-md">
             <div className="font-bold text-xl tracking-tight text-white flex items-center gap-2">
               <span className="bg-indigo-500 w-8 h-8 flex items-center justify-center rounded-lg text-white">L</span>
               LinkManager

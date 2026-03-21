@@ -57,7 +57,7 @@ export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
                     "absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-500",
                     isLoading && "opacity-70 animate-pulse"
                 )}></div>
-                <div className="relative flex items-center bg-[#131b2f] border border-white/10 rounded-2xl p-2 shadow-2xl transition-all">
+                <div className="relative flex items-center bg-[#131b2f] border border-white/10 rounded-2xl p-1.5 sm:p-2 shadow-2xl transition-all">
                     <div className="pl-4 pr-3 text-slate-400">
                         <LinkIcon className="w-6 h-6" />
                     </div>
@@ -66,21 +66,21 @@ export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
                         value={url}
                         onChange={(e) => setUrl(e.target.value)}
                         placeholder="Paste any URL here (e.g. from X, LinkedIn, Readcv...)"
-                        className="flex-1 bg-transparent text-slate-200 placeholder-slate-500 outline-none text-lg py-3"
+                        className="flex-1 bg-transparent text-slate-200 placeholder-slate-500 outline-none text-base sm:text-lg py-3"
                         required
                         ref={inputRef}
                     />
                     <button
                         type="submit"
                         disabled={isLoading || !url}
-                        className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white p-3 px-4 sm:px-6 rounded-xl font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {isLoading ? (
                             <Loader2 className="w-5 h-5 animate-spin" />
                         ) : (
                             <>
                                 <Sparkles className="w-5 h-5 text-indigo-200" />
-                                <span>Save & Analyze</span>
+                                <span className="hidden sm:inline">Save & Analyze</span>
                             </>
                         )}
                     </button>

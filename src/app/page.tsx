@@ -12,7 +12,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen text-slate-100 p-8 sm:p-12 md:p-20 relative overflow-hidden">
+    <main className="min-h-screen text-slate-100 p-4 sm:p-8 md:p-16 relative overflow-hidden">
       {/* Background ambient light */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute top-[20%] right-[-10%] w-[30%] h-[50%] bg-pink-500/10 blur-[140px] rounded-full pointer-events-none" />
@@ -24,10 +24,10 @@ export default function Home() {
           <div className="inline-block p-1 px-4 rounded-full glass mb-4 border-indigo-500/30 text-indigo-300 text-sm font-medium tracking-wide shadow-[0_0_15px_rgba(99,102,241,0.2)]">
             Powered by Next.js & Gemini
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight">
             Curate your <span className="gradient-text">digital library</span>
           </h1>
-          <p className="text-slate-400 max-w-2xl mx-auto text-lg md:text-xl">
+          <p className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg md:text-xl">
             Drop a link below. We&apos;ll auto-fetch the metadata and intelligently categorize it so you can find it later.
           </p>
         </header>

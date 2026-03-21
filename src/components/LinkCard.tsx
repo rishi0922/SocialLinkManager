@@ -72,7 +72,7 @@ export default function LinkCard({ link, index, onDelete }: { link: LinkType; in
             )}
 
             {/* Content */}
-            <div className="p-5 flex-1 flex flex-col">
+            <div className="p-4 sm:p-5 flex-1 flex flex-col">
                 <div className="flex justify-between items-start gap-2 mb-2">
                     <h3 className="text-lg font-semibold leading-tight line-clamp-2 text-slate-100 group-hover:text-indigo-400 transition-colors">
                         {link.title}
