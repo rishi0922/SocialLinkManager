@@ -57,7 +57,7 @@ export default function LinkCard({ link, index, onDelete }: { link: LinkType; in
 
             {/* Image Banner */}
             {link.image_url ? (
-                <div className="h-40 w-full overflow-hidden bg-white/5 border-b border-white/5">
+                <div className="h-28 sm:h-40 w-full overflow-hidden bg-white/5 border-b border-white/5">
                     <img
                         src={link.image_url}
                         alt={link.title}
@@ -68,19 +68,19 @@ export default function LinkCard({ link, index, onDelete }: { link: LinkType; in
                     />
                 </div>
             ) : (
-                <div className="h-40 w-full bg-indigo-900/20" />
+                <div className="h-28 sm:h-40 w-full bg-indigo-900/20" />
             )}
 
             {/* Content */}
-            <div className="p-4 sm:p-5 flex-1 flex flex-col">
-                <div className="flex justify-between items-start gap-2 mb-2">
-                    <h3 className="text-lg font-semibold leading-tight line-clamp-2 text-slate-100 group-hover:text-indigo-400 transition-colors">
+            <div className="p-3 sm:p-5 flex-1 flex flex-col">
+                <div className="flex justify-between items-start gap-1 mb-2">
+                    <h3 className="text-sm sm:text-lg font-semibold leading-tight line-clamp-2 text-slate-100 group-hover:text-indigo-400 transition-colors">
                         {link.title}
                     </h3>
                     <ExternalLink className="w-4 h-4 text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
                 </div>
 
-                <p className="text-sm text-slate-400 line-clamp-2 flex-1 mb-4">
+                <p className="text-xs sm:text-sm text-slate-400 line-clamp-2 flex-1 mb-3">
                     {link.description}
                 </p>
 

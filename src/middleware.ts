@@ -3,7 +3,7 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 // By default, make all routes protected EXCEPT the auth routes if we have them. 
 // However, clerkMiddleware handles sign-in out of the box. 
 // Creating a route matcher to protect everything by default
-const isPublicRoute = createRouteMatcher(['/api/webhook(.*)']); // webhook etc if needed
+const isPublicRoute = createRouteMatcher(['/api/webhook(.*)']);
 
 export default clerkMiddleware(async (auth, request) => {
     if (!isPublicRoute(request)) {
