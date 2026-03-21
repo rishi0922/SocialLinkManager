@@ -27,7 +27,7 @@ export default function LinkCard({ link, index, onDelete }: { link: LinkType; in
             className="glass-card flex flex-col overflow-hidden group hover:-translate-y-1 block relative"
         >
             {/* Absolute positioning for 3-dot menu */}
-            <div className="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-300">
+            <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-20 opacity-100 md:opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-300">
                 <button
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsMenuOpen(!isMenuOpen); }}
                     className="p-1.5 rounded-full bg-slate-900/60 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors backdrop-blur-md"
@@ -86,8 +86,8 @@ export default function LinkCard({ link, index, onDelete }: { link: LinkType; in
 
                 <div className="flex flex-wrap items-center gap-2 mt-auto">
                     {(link.category || "Misc").split(',').map(tag => tag.trim()).filter(Boolean).map((tag, i) => (
-                        <span key={i} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-300 text-xs font-medium border border-indigo-500/20">
-                            <Tag className="w-3 h-3" />
+                        <span key={i} className="inline-flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-indigo-500/10 text-indigo-300 text-[10px] sm:text-xs font-medium border border-indigo-500/20">
+                            <Tag className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                             {tag}
                         </span>
                     ))}
