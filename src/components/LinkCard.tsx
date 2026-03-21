@@ -27,7 +27,7 @@ export default function LinkCard({ link, index, onDelete }: { link: LinkType; in
             className="glass-card flex flex-col overflow-hidden group hover:-translate-y-1 block relative"
         >
             {/* Absolute positioning for 3-dot menu */}
-            <div className="absolute top-3 right-3 z-20">
+            <div className="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-300">
                 <button
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsMenuOpen(!isMenuOpen); }}
                     className="p-1.5 rounded-full bg-slate-900/60 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors backdrop-blur-md"
