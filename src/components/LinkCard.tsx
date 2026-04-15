@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Tag, MoreVertical, Trash2 } from "lucide-react";
+import { ExternalLink, Tag, MoreVertical, Trash2, Sparkles } from "lucide-react";
 
 import { LinkType } from "./LinkList";
 
@@ -83,6 +83,15 @@ export default function LinkCard({ link, index, onDelete }: { link: LinkType; in
                 <p className="text-xs sm:text-sm text-slate-400 line-clamp-2 flex-1 mb-3">
                     {link.description}
                 </p>
+
+                {link.note && (
+                    <div className="flex items-start gap-2 mb-3 p-2 rounded-lg bg-indigo-500/5 border border-indigo-500/10">
+                        <Sparkles className="w-3.5 h-3.5 text-indigo-400 mt-0.5 flex-shrink-0" />
+                        <p className="text-xs text-indigo-200/80 leading-snug italic line-clamp-2">
+                            {link.note}
+                        </p>
+                    </div>
+                )}
 
                 <div className="flex flex-wrap items-center gap-2 mt-auto">
                     {(link.category || "Misc").split(',').map(tag => tag.trim()).filter(Boolean).map((tag, i) => (

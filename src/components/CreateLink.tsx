@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 
 export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
     const [url, setUrl] = useState("");
+    const [note, setNote] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [, setError] = useState("");
     const [currentOrigin, setCurrentOrigin] = useState("");
@@ -28,13 +29,14 @@ export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
             const res = await fetch('/api/link', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ url })
+                body: JSON.stringify({ url, note })
             });
             const result = await res.json();
 
             if (res.ok) {
                 // Successfully processed
                 setUrl("");
+                setNote("");
                 onSuccess();
             } else {
                 console.error("Error from API:", result.error);
@@ -57,33 +59,48 @@ export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
                     "absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-500",
                     isLoading && "opacity-70 animate-pulse"
                 )}></div>
-                <div className="relative flex items-center bg-[#131b2f] border border-white/10 rounded-2xl p-1.5 sm:p-2 shadow-2xl transition-all">
-                    <div className="pl-4 pr-3 text-slate-400">
-                        <LinkIcon className="w-6 h-6" />
+                <div className="relative flex flex-col bg-[#131b2f] border border-white/10 rounded-2xl p-1.5 sm:p-2 shadow-2xl transition-all">
+                    <div className="flex items-center w-full">
+                        <div className="pl-4 pr-3 text-slate-400">
+                            <LinkIcon className="w-6 h-6" />
+                        </div>
+                        <input
+                            type="url"
+                            value={url}
+                            onChange={(e) => setUrl(e.target.value)}
+                            placeholder="Paste any URL here..."
+                            className="flex-1 bg-transparent text-slate-200 placeholder-slate-500 outline-none text-base sm:text-lg py-3"
+                            required
+                            ref={inputRef}
+                        />
+                        <button
+                            type="submit"
+                            disabled={isLoading || !url}
+                            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white p-3 px-4 sm:px-6 rounded-xl font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {isLoading ? (
+                                <Loader2 className="w-5 h-5 animate-spin" />
+                            ) : (
+                                <>
+                                    <Sparkles className="w-5 h-5 text-indigo-200" />
+                                    <span className="hidden sm:inline">Save & Analyze</span>
+                                </>
+                            )}
+                        </button>
                     </div>
-                    <input
-                        type="url"
-                        value={url}
-                        onChange={(e) => setUrl(e.target.value)}
-                        placeholder="Paste any URL here (e.g. from X, LinkedIn, Readcv...)"
-                        className="flex-1 bg-transparent text-slate-200 placeholder-slate-500 outline-none text-base sm:text-lg py-3"
-                        required
-                        ref={inputRef}
-                    />
-                    <button
-                        type="submit"
-                        disabled={isLoading || !url}
-                        className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white p-3 px-4 sm:px-6 rounded-xl font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {isLoading ? (
-                            <Loader2 className="w-5 h-5 animate-spin" />
-                        ) : (
-                            <>
-                                <Sparkles className="w-5 h-5 text-indigo-200" />
-                                <span className="hidden sm:inline">Save & Analyze</span>
-                            </>
-                        )}
-                    </button>
+                    <div className="w-full h-px bg-white/5 my-1 ml-4 mr-4" />
+                    <div className="flex items-center w-full">
+                        <div className="pl-4 pr-3 text-slate-500">
+                            <Sparkles className="w-4 h-4" />
+                        </div>
+                        <input
+                            type="text"
+                            value={note}
+                            onChange={(e) => setNote(e.target.value)}
+                            placeholder="Add a custom note or tag (optional)"
+                            className="flex-1 bg-transparent text-slate-400 placeholder-slate-600 outline-none text-sm py-2"
+                        />
+                    </div>
                 </div>
             </form>
 

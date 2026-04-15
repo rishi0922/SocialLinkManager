@@ -24,7 +24,7 @@ export async function POST(req: Request) {
         const { userId } = await auth();
         if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-        const { url } = await req.json();
+        const { url, note } = await req.json();
 
         if (!url) {
             return NextResponse.json({ error: 'URL is required' }, { status: 400 });
@@ -128,13 +128,14 @@ export async function POST(req: Request) {
             description: description || '',
             image_url: imageUrl,
             category: category,
+            note: note || null,
         };
 
         // 3. Save to Neon
         try {
             const insertedData = await sql`
-                INSERT INTO links (url, title, description, image_url, category, user_id)
-                VALUES (${processedData.url}, ${processedData.title}, ${processedData.description}, ${processedData.image_url}, ${processedData.category}, ${userId})
+                INSERT INTO links (url, title, description, image_url, category, user_id, note)
+                VALUES (${processedData.url}, ${processedData.title}, ${processedData.description}, ${processedData.image_url}, ${processedData.category}, ${userId}, ${processedData.note})
                 RETURNING *;
             `;
 

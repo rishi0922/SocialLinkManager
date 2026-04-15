@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS public.links (
     description TEXT,
     image_url TEXT,
     category TEXT,
+    note TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 

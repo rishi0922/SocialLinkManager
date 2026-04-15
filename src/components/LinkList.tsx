@@ -11,6 +11,7 @@ export interface LinkType {
     description: string;
     category: string;
     image_url: string | null;
+    note: string | null;
     created_at: string;
 }
 
@@ -56,7 +57,8 @@ export default function LinkList({ triggerRefetch }: { triggerRefetch: number })
         (link) =>
             link.title?.toLowerCase().includes(search.toLowerCase()) ||
             link.category?.toLowerCase().includes(search.toLowerCase()) ||
-            link.description?.toLowerCase().includes(search.toLowerCase())
+            link.description?.toLowerCase().includes(search.toLowerCase()) ||
+            link.note?.toLowerCase().includes(search.toLowerCase())
     );
 
     return (
