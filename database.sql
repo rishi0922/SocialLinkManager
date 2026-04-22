@@ -1,4 +1,4 @@
--- Copy and paste this into the Supabase SQL Editor
+-- Copy and paste this into the Neon SQL Editor or Supabase SQL Editor
 
 CREATE TABLE IF NOT EXISTS public.links (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS public.links (
     image_url TEXT,
     category TEXT,
     note TEXT,
+    user_id TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
