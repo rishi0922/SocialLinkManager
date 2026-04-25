@@ -28,7 +28,7 @@ export default function UserPersonalizedTab() {
     const firstName = user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
     
     // Generate a consistent random avatar based on the user's ID
-    const randomAvatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.id}&backgroundColor=b6e3f4,c0aede,d1d4f9`;
+    const randomAvatar = `https://api.dicebear.com/7.x/shapes/svg?seed=${user.id}&backgroundColor=1e1b4b,312e81,4338ca`;
 
     // Birthday Logic
     const today = new Date();
