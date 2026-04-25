@@ -3,6 +3,7 @@
 import { useState } from "react";
 import CreateLink from "@/components/CreateLink";
 import LinkList from "@/components/LinkList";
+import UserPersonalizedTab from "@/components/UserPersonalizedTab";
 
 export default function Home() {
   const [refreshKey, setRefreshKey] = useState(0);
@@ -31,6 +32,9 @@ export default function Home() {
             Drop a link below. We&apos;ll auto-fetch the metadata and intelligently categorize it so you can find it later.
           </p>
         </header>
+
+        {/* Personalized User Tab */}
+        <UserPersonalizedTab />
 
         {/* Input Form */}
         <section className="max-w-2xl mx-auto">
