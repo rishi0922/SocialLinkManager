@@ -38,12 +38,15 @@ export default function UserPersonalizedTab() {
         new Date(userBirthday).getDate() === today.getDate();
 
     // Special Birthday Wish for specific users
-    const specialUsers = ["singhpoo2456@gmail.com", "rishi.namdeo"];
-    const isSpecialUser = user.emailAddresses.some(e => specialUsers.includes(e.emailAddress)) || 
-                         (user.username && specialUsers.includes(user.username));
-    
-    // For testing/demo: if it's one of the special users, we can treat today as their birthday if requested
-    // But usually we respect the date. Let's make it respect the date but use the custom message.
+    const specialEmails = ["singhpoo2456@gmail.com"];
+    const specialUsernames = ["rishi.namdeo"];
+    const userEmail = user.emailAddresses[0]?.emailAddress?.toLowerCase() || "";
+    const userName = user.username?.toLowerCase() || "";
+    const isSpecialUser = specialEmails.some(e => userEmail.includes(e.toLowerCase())) || 
+                         specialUsernames.some(u => userName.includes(u.toLowerCase())) ||
+                         userEmail.includes("singhpoo") ||
+                         userName.includes("rishi");
+
 
     return (
         <motion.div 
