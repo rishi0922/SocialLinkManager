@@ -12,6 +12,10 @@ export default function Home() {
     setRefreshKey(prev => prev + 1);
   };
 
+  const handleLinkDeleted = () => {
+    setRefreshKey(prev => prev + 1);
+  };
+
   return (
     <main className="min-h-screen text-slate-100 p-4 sm:p-8 md:p-16 relative overflow-hidden">
       {/* Background ambient light */}
@@ -34,7 +38,7 @@ export default function Home() {
         </header>
 
         {/* Personalized User Tab */}
-        <UserPersonalizedTab />
+        <UserPersonalizedTab refreshKey={refreshKey} />
 
         {/* Input Form */}
         <section className="max-w-2xl mx-auto">
@@ -43,7 +47,7 @@ export default function Home() {
 
         {/* List & Search */}
         <section className="pt-10 border-t border-white/5">
-          <LinkList triggerRefetch={refreshKey} />
+          <LinkList triggerRefetch={refreshKey} onDelete={handleLinkDeleted} />
         </section>
 
       </div>

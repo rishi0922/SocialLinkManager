@@ -6,9 +6,18 @@ import { Sparkles, Library, Zap, Database, Cake, User } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function UserPersonalizedTab() {
+export default function UserPersonalizedTab({ refreshKey }: { refreshKey?: number }) {
     const { user, isLoaded } = useUser();
     const [linkCount, setLinkCount] = useState<number | null>(null);
+
+    const getCuratorTag = (count: number | null) => {
+        if (count === null) return "Calculating...";
+        if (count < 14) return "Newbie";
+        if (count < 50) return "Novice Curator";
+        if (count < 90) return "Intermediate Curator";
+        if (count < 120) return "Pro Curator";
+        return "Advance";
+    };
 
     useEffect(() => {
         if (user) {
@@ -21,7 +30,7 @@ export default function UserPersonalizedTab() {
                 })
                 .catch(err => console.error("Error fetching stats:", err));
         }
-    }, [user]);
+    }, [user, refreshKey]);
 
     if (!isLoaded || !user) return null;
 
@@ -95,7 +104,7 @@ export default function UserPersonalizedTab() {
                                     Hey, <span className="gradient-text">{firstName}</span>
                                 </h2>
                                 <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 w-fit mx-auto sm:mx-0">
-                                    Pro Curator
+                                    {getCuratorTag(linkCount)}
                                 </div>
                             </div>
                             <p className="text-slate-400 text-sm sm:text-base max-w-md">

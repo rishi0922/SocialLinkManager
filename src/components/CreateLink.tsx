@@ -63,10 +63,10 @@ export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
             <AnimatePresence>
                 {quirkyMessage && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20, scale: 0.9 }}
+                        initial={{ opacity: 0, y: 50, scale: 0.9 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -20, scale: 0.9 }}
-                        className="absolute -top-16 left-0 right-0 z-50 flex justify-center px-4"
+                        exit={{ opacity: 0, y: 50, scale: 0.9 }}
+                        className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-sm sm:max-w-md flex justify-center"
                     >
                         <div className="bg-indigo-500 text-white px-6 py-3 rounded-2xl shadow-[0_0_30px_rgba(99,102,241,0.4)] border border-indigo-400 flex items-center gap-3">
                             <PartyPopper className="w-5 h-5 text-indigo-100" />

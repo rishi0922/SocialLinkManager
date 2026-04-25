@@ -15,7 +15,7 @@ export interface LinkType {
     created_at: string;
 }
 
-export default function LinkList({ triggerRefetch }: { triggerRefetch: number }) {
+export default function LinkList({ triggerRefetch, onDelete }: { triggerRefetch: number, onDelete?: () => void }) {
     const [search, setSearch] = useState("");
     const [links, setLinks] = useState<LinkType[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -45,6 +45,7 @@ export default function LinkList({ triggerRefetch }: { triggerRefetch: number })
             const res = await fetch(`/api/link?id=${id}`, { method: 'DELETE' });
             if (res.ok) {
                 setLinks(links => links.filter(l => l.id !== id));
+                if (onDelete) onDelete();
             } else {
                 console.error("Failed to delete link");
             }
