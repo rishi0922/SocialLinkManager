@@ -32,9 +32,10 @@ export default function UserPersonalizedTab() {
 
     // Birthday Logic
     const today = new Date();
-    const isBirthday = user.birthday && 
-        new Date(user.birthday).getMonth() === today.getMonth() && 
-        new Date(user.birthday).getDate() === today.getDate();
+    const userBirthday = (user as any).birthday;
+    const isBirthday = userBirthday && 
+        new Date(userBirthday).getMonth() === today.getMonth() && 
+        new Date(userBirthday).getDate() === today.getDate();
 
     // Special Birthday Wish for specific users
     const specialUsers = ["singhpoo2456@gmail.com", "rishi.namdeo"];
