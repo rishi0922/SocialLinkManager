@@ -114,7 +114,7 @@ export default function UserPersonalizedTab() {
                                     <span className="text-[10px] uppercase tracking-widest text-pink-500 font-bold mb-1 flex items-center gap-1.5">
                                         <Cake className="w-3 h-3" /> {isSpecialUser && !isBirthday ? 'Message' : 'Birthday'}
                                     </span>
-                                    <span className="text-pink-300 font-medium text-sm">Active!</span>
+                                    <span className="text-pink-300 font-medium text-sm">🎉🥳🥂🍻🎂</span>
                                 </div>
                             )}
                             <div className="flex flex-col items-center sm:items-start">
