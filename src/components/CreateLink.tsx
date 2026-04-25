@@ -1,15 +1,16 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Link as LinkIcon, Loader2, BookmarkPlus, Sparkles } from "lucide-react";
+import { Link as LinkIcon, Loader2, BookmarkPlus, Sparkles, PartyPopper } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
     const [url, setUrl] = useState("");
     const [note, setNote] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [, setError] = useState("");
     const [currentOrigin, setCurrentOrigin] = useState("");
+    const [quirkyMessage, setQuirkyMessage] = useState("");
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -35,9 +36,13 @@ export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
 
             if (res.ok) {
                 // Successfully processed
+                setQuirkyMessage(result.quirkyMessage || "Saved successfully!");
                 setUrl("");
                 setNote("");
                 onSuccess();
+
+                // Clear message after 5 seconds
+                setTimeout(() => setQuirkyMessage(""), 5000);
             } else {
                 console.error("Error from API:", result.error);
                 setError(result.error);
@@ -53,7 +58,24 @@ export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
     };
 
     return (
-        <div>
+        <div className="relative">
+            {/* Quirky Message Notification */}
+            <AnimatePresence>
+                {quirkyMessage && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                        className="absolute -top-16 left-0 right-0 z-50 flex justify-center px-4"
+                    >
+                        <div className="bg-indigo-500 text-white px-6 py-3 rounded-2xl shadow-[0_0_30px_rgba(99,102,241,0.4)] border border-indigo-400 flex items-center gap-3">
+                            <PartyPopper className="w-5 h-5 text-indigo-100" />
+                            <span className="font-medium text-sm sm:text-base">{quirkyMessage}</span>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             <form onSubmit={handleSubmit} className="relative group">
                 <div className={cn(
                     "absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-500",

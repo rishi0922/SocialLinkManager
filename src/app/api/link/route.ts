@@ -139,9 +139,27 @@ export async function POST(req: Request) {
                 RETURNING *;
             `;
 
+            // 4. Generate quirky message
+            let quirkyMessage = "Saved! Another one for the collection.";
+            try {
+                if (process.env.GEMINI_API_KEY) {
+                    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+                    const quirkyPrompt = `Generate a short, quirky, one-sentence "success message" for saving this link. 
+                    The message should be witty, slightly playful, and related to the content if possible.
+                    Link Title: "${processedData.title}"
+                    Link Category: "${processedData.category}"
+                    Rules: Max 10 words. No quotes.`;
+                    const quirkyResult = await model.generateContent(quirkyPrompt);
+                    quirkyMessage = quirkyResult.response.text().trim().replace(/"/g, '');
+                }
+            } catch (e) {
+                console.error("Quirky message generation failed:", e);
+            }
+
             return NextResponse.json({
                 success: true,
-                data: insertedData[0]
+                data: insertedData[0],
+                quirkyMessage: quirkyMessage
             });
         } catch (dbError) {
             console.error("Neon Error:", dbError);
