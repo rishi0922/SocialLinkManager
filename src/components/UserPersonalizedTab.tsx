@@ -2,7 +2,7 @@
 
 import { useUser } from "@clerk/nextjs";
 import { motion } from "framer-motion";
-import { Sparkles, Library, Zap, Database } from "lucide-react";
+import { Sparkles, Library, Zap, Database, Cake, User } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -26,6 +26,19 @@ export default function UserPersonalizedTab() {
     if (!isLoaded || !user) return null;
 
     const firstName = user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
+    
+    // Generate a consistent random avatar based on the user's ID
+    const randomAvatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.id}&backgroundColor=b6e3f4,c0aede,d1d4f9`;
+
+    // Birthday Logic
+    const today = new Date();
+    const isBirthday = user.birthday && 
+        new Date(user.birthday).getMonth() === today.getMonth() && 
+        new Date(user.birthday).getDate() === today.getDate();
+
+    // For demo purposes, if birthday isn't set, we can show a special message if they have "birthday_demo" in metadata
+    // or just show it if today is a specific date. 
+    // Let's assume we show a "Wish" if it's their special day.
 
     return (
         <motion.div 
@@ -45,15 +58,24 @@ export default function UserPersonalizedTab() {
                     <div className="flex flex-col sm:flex-row items-center gap-6 relative z-10">
                         {/* Avatar Section */}
                         <div className="relative">
-                            <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-indigo-500/30 shadow-[0_0_20px_rgba(99,102,241,0.2)]">
+                            <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-indigo-500/30 shadow-[0_0_20px_rgba(99,102,241,0.2)] bg-slate-900">
                                 <Image 
-                                    src={user.imageUrl} 
+                                    src={randomAvatar} 
                                     alt={firstName}
                                     width={80}
                                     height={80}
                                     className="object-cover"
                                 />
                             </div>
+                            {isBirthday && (
+                                <motion.div 
+                                    animate={{ scale: [1, 1.2, 1] }}
+                                    transition={{ repeat: Infinity, duration: 2 }}
+                                    className="absolute -top-2 -left-2 bg-pink-500 p-1.5 rounded-lg shadow-lg"
+                                >
+                                    <Cake className="w-3.5 h-3.5 text-white" />
+                                </motion.div>
+                            )}
                             <div className="absolute -bottom-2 -right-2 bg-indigo-500 p-1.5 rounded-lg shadow-lg">
                                 <Sparkles className="w-3.5 h-3.5 text-white" />
                             </div>
@@ -70,12 +92,22 @@ export default function UserPersonalizedTab() {
                                 </div>
                             </div>
                             <p className="text-slate-400 text-sm sm:text-base max-w-md">
-                                Your digital library is growing. Gemini is analyzing your latest links to find hidden patterns.
+                                {isBirthday 
+                                    ? `Happy Birthday, ${firstName}! 🎉 Wishing you an incredible day of discovery and curation.`
+                                    : "Your digital library is growing. Gemini is analyzing your latest links to find hidden patterns."}
                             </p>
                         </div>
 
                         {/* Quick Stats/Tabs style info */}
                         <div className="flex gap-4 sm:flex-col justify-center border-t sm:border-t-0 sm:border-l border-white/5 pt-4 sm:pt-0 sm:pl-6 w-full sm:w-auto">
+                            {isBirthday && (
+                                <div className="flex flex-col items-center sm:items-start animate-bounce">
+                                    <span className="text-[10px] uppercase tracking-widest text-pink-500 font-bold mb-1 flex items-center gap-1.5">
+                                        <Cake className="w-3 h-3" /> Birthday
+                                    </span>
+                                    <span className="text-pink-300 font-medium text-sm">Active!</span>
+                                </div>
+                            )}
                             <div className="flex flex-col items-center sm:items-start">
                                 <span className="text-[10px] uppercase tracking-widest text-slate-500 font-semibold mb-1 flex items-center gap-1.5">
                                     <Database className="w-3 h-3" /> Library
@@ -86,9 +118,9 @@ export default function UserPersonalizedTab() {
                             </div>
                             <div className="flex flex-col items-center sm:items-start">
                                 <span className="text-[10px] uppercase tracking-widest text-slate-500 font-semibold mb-1 flex items-center gap-1.5">
-                                    <Zap className="w-3 h-3" /> Mode
+                                    <User className="w-3 h-3" /> Profile
                                 </span>
-                                <span className="text-pink-300 font-medium text-sm">Focus</span>
+                                <span className="text-pink-300 font-medium text-sm">Custom</span>
                             </div>
                         </div>
                     </div>
