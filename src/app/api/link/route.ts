@@ -88,7 +88,7 @@ export async function POST(req: Request) {
 
         try {
             if (process.env.GEMINI_API_KEY) {
-                const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
                 const prompt = `Analyze this link and generate up to 3 highly descriptive, single-word tags (e.g., 'AI', 'Design', 'Tech', 'React', 'News', 'Finance', 'Tutorial').
         
         Link URL: "${url}"
@@ -143,12 +143,13 @@ export async function POST(req: Request) {
             let quirkyMessage = "Saved! Another one for the collection.";
             try {
                 if (process.env.GEMINI_API_KEY) {
-                    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+                    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
                     const quirkyPrompt = `Generate a short, quirky, one-sentence "success message" for saving this link. 
-                    The message should be witty, slightly playful, and related to the content if possible.
+                    Be creative, funny, and specific to the link topic. Use puns if appropriate.
                     Link Title: "${processedData.title}"
                     Link Category: "${processedData.category}"
-                    Rules: Max 10 words. No quotes.`;
+                    Link Description: "${processedData.description}"
+                    Rules: Max 10 words. No quotes. Never repeat the same generic message.`;
                     const quirkyResult = await model.generateContent(quirkyPrompt);
                     quirkyMessage = quirkyResult.response.text().trim().replace(/"/g, '');
                 }
