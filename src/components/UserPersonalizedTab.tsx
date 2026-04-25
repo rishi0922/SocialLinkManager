@@ -96,18 +96,20 @@ export default function UserPersonalizedTab() {
                                 </div>
                             </div>
                             <p className="text-slate-400 text-sm sm:text-base max-w-md">
-                                {isBirthday 
-                                    ? (isSpecialUser ? `Happy birtday pagal aurat 🎉` : `Happy Birthday, ${firstName}! 🎉 Wishing you an incredible day of discovery and curation.`)
-                                    : "Your digital library is growing. Gemini is analyzing your latest links to find hidden patterns."}
+                                {isSpecialUser 
+                                    ? `Happy birtday pagal aurat 🎉` 
+                                    : (isBirthday 
+                                        ? `Happy Birthday, ${firstName}! 🎉 Wishing you an incredible day of discovery and curation.`
+                                        : "Your digital library is growing. Gemini is analyzing your latest links to find hidden patterns.")
+                                }
                             </p>
                         </div>
 
-                        {/* Quick Stats/Tabs style info */}
                         <div className="flex gap-4 sm:flex-col justify-center border-t sm:border-t-0 sm:border-l border-white/5 pt-4 sm:pt-0 sm:pl-6 w-full sm:w-auto">
-                            {isBirthday && (
+                            {(isBirthday || isSpecialUser) && (
                                 <div className="flex flex-col items-center sm:items-start animate-bounce">
                                     <span className="text-[10px] uppercase tracking-widest text-pink-500 font-bold mb-1 flex items-center gap-1.5">
-                                        <Cake className="w-3 h-3" /> Birthday
+                                        <Cake className="w-3 h-3" /> {isSpecialUser && !isBirthday ? 'Message' : 'Birthday'}
                                     </span>
                                     <span className="text-pink-300 font-medium text-sm">Active!</span>
                                 </div>
