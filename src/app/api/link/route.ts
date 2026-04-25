@@ -139,23 +139,52 @@ export async function POST(req: Request) {
                 RETURNING *;
             `;
 
-            // 4. Generate quirky message
-            let quirkyMessage = "Saved! Another one for the collection.";
-            try {
-                if (process.env.GEMINI_API_KEY) {
-                    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-                    const quirkyPrompt = `Generate a short, quirky, one-sentence "success message" for saving this link. 
-                    Be creative, funny, and specific to the link topic. Use puns if appropriate.
-                    Link Title: "${processedData.title}"
-                    Link Category: "${processedData.category}"
-                    Link Description: "${processedData.description}"
-                    Rules: Max 10 words. No quotes. Never repeat the same generic message.`;
-                    const quirkyResult = await model.generateContent(quirkyPrompt);
-                    quirkyMessage = quirkyResult.response.text().trim().replace(/"/g, '');
-                }
-            } catch (e: any) {
-                console.error("Quirky message generation failed:", e);
-                quirkyMessage = `(Debug: Gemini Error - ${e.message || 'Unknown error'})`;
+            // 4. Pick quirky message based on URL and category
+            const pick = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
+
+            const messages: Record<string, string[]> = {
+                youtube:   ["🎬 Lights, camera, saved!", "🍿 Popcorn ready for later?", "📺 Your watch-later list just leveled up.", "🎥 Director's cut, saved!", "▶️ Play it cool, watch it later."],
+                twitter:   ["🐦 Tweet captured before it disappears!", "🔥 Hot take saved for reference.", "📌 That spicy tweet is now yours forever.", "🗨️ Words are fleeting, bookmarks are forever.", "🐦 In case they delete it later... 👀"],
+                instagram: ["📸 Double tap, now save!", "✨ Your aesthetic just got company.", "🖼️ That vibe is now in your collection.", "📷 Saved before the algorithm buries it.", "💅 Flawless. Pinned to your digital mood board."],
+                github:    ["💻 New repo unlocked!", "🛠️ A fellow builder's work, archived.", "⭐ Stars are nice, but your save is better.", "🐙 Octocat approves this bookmark.", "🚀 Code collected. Time to ship something!"],
+                linkedin:  ["💼 Networking level: archived.", "📊 Very professional. Very saved.", "🤝 Synergizing your link collection.", "🏢 Career move? Saved for later hustle.", "💡 Big brain LinkedIn energy, stored."],
+                reddit:    ["👾 Down the rabbit hole you go!", "🔴 The front page is now your bookmark.", "💬 Found gold in the comments again?", "🤔 This thread deserved to be remembered.", "📜 Internet wisdom, preserved."],
+                medium:    ["📖 Your reading list just got smarter.", "✍️ An article worth the 7-minute read.", "💡 Ideas are like links — save them all.", "📰 Brain food, bookmarked.", "🧠 Feeding the mind, one article at a time."],
+                news:      ["📰 Hot off the press, saved!", "🗞️ Today's news, tomorrow's reference.", "⚡ Breaking into your bookmark collection.", "📡 Signal acquired, bookmark set.", "🌍 Staying informed, one save at a time."],
+                design:    ["🎨 Your design inspo just grew.", "✨ Aesthetic saved. Eyes satisfied.", "🖌️ Moodboard status: thriving.", "💎 A gem for your creative vault.", "🌈 The color palette of good taste."],
+                ai:        ["🤖 The robots are watching. Saved!", "🧠 AI-level save detected.", "⚡ Future knowledge, unlocked.", "🔮 One step ahead of the algorithm.", "💡 Your AI reading list just upgraded."],
+                coding:    ["👨‍💻 Another bug-free addition to your vault.", "🛠️ Stack Overflow couldn't help? This might!", "⌨️ Code, coffee, and now this link.", "🐛 Not a bug, it's a feature — and it's saved!", "🚀 Ship it to your bookmarks first."],
+                misc:      ["📌 Filed away for future genius.", "💼 Tucked into your digital vault.", "🗂️ Your future self will thank you.", "✅ Link secured. Mission complete.", "🔖 Saved and sorted. Impressive taste."],
+            };
+
+            const urlL = url.toLowerCase();
+            const catL = (processedData.category || '').toLowerCase();
+
+            let quirkyMessage: string;
+            if (urlL.includes('youtube') || urlL.includes('youtu.be')) {
+                quirkyMessage = pick(messages.youtube);
+            } else if (urlL.includes('twitter') || urlL.includes('x.com')) {
+                quirkyMessage = pick(messages.twitter);
+            } else if (urlL.includes('instagram')) {
+                quirkyMessage = pick(messages.instagram);
+            } else if (urlL.includes('github')) {
+                quirkyMessage = pick(messages.github);
+            } else if (urlL.includes('linkedin')) {
+                quirkyMessage = pick(messages.linkedin);
+            } else if (urlL.includes('reddit')) {
+                quirkyMessage = pick(messages.reddit);
+            } else if (urlL.includes('medium')) {
+                quirkyMessage = pick(messages.medium);
+            } else if (catL.includes('news') || catL.includes('article')) {
+                quirkyMessage = pick(messages.news);
+            } else if (catL.includes('design') || catL.includes('ui') || catL.includes('ux')) {
+                quirkyMessage = pick(messages.design);
+            } else if (catL.includes('ai') || catL.includes('ml') || catL.includes('llm')) {
+                quirkyMessage = pick(messages.ai);
+            } else if (catL.includes('react') || catL.includes('code') || catL.includes('dev') || catL.includes('github') || catL.includes('javascript') || catL.includes('python')) {
+                quirkyMessage = pick(messages.coding);
+            } else {
+                quirkyMessage = pick(messages.misc);
             }
 
             return NextResponse.json({
@@ -163,6 +192,7 @@ export async function POST(req: Request) {
                 data: insertedData[0],
                 quirkyMessage: quirkyMessage
             });
+
         } catch (dbError) {
             console.error("Neon Error:", dbError);
             return NextResponse.json({ error: 'Failed to save to database', details: dbError }, { status: 500 });
