@@ -36,9 +36,13 @@ export default function UserPersonalizedTab() {
         new Date(user.birthday).getMonth() === today.getMonth() && 
         new Date(user.birthday).getDate() === today.getDate();
 
-    // For demo purposes, if birthday isn't set, we can show a special message if they have "birthday_demo" in metadata
-    // or just show it if today is a specific date. 
-    // Let's assume we show a "Wish" if it's their special day.
+    // Special Birthday Wish for specific users
+    const specialUsers = ["singhpoo2456@gmail.com", "rishi.namdeo"];
+    const isSpecialUser = user.emailAddresses.some(e => specialUsers.includes(e.emailAddress)) || 
+                         (user.username && specialUsers.includes(user.username));
+    
+    // For testing/demo: if it's one of the special users, we can treat today as their birthday if requested
+    // But usually we respect the date. Let's make it respect the date but use the custom message.
 
     return (
         <motion.div 
@@ -93,7 +97,7 @@ export default function UserPersonalizedTab() {
                             </div>
                             <p className="text-slate-400 text-sm sm:text-base max-w-md">
                                 {isBirthday 
-                                    ? `Happy Birthday, ${firstName}! 🎉 Wishing you an incredible day of discovery and curation.`
+                                    ? (isSpecialUser ? `Happy birtday pagal aurat 🎉` : `Happy Birthday, ${firstName}! 🎉 Wishing you an incredible day of discovery and curation.`)
                                     : "Your digital library is growing. Gemini is analyzing your latest links to find hidden patterns."}
                             </p>
                         </div>
