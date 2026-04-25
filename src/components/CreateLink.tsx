@@ -25,7 +25,6 @@ export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
         if (!url) return;
 
         setIsLoading(true);
-        setError(""); // Clear previous errors
         try {
             const res = await fetch('/api/link', {
                 method: 'POST',
@@ -45,12 +44,10 @@ export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
                 setTimeout(() => setQuirkyMessage(""), 5000);
             } else {
                 console.error("Error from API:", result.error);
-                setError(result.error);
                 alert(result.error);
             }
         } catch (err) {
             console.error(err);
-            setError('Failed to save link');
             alert('Failed to save link');
         } finally {
             setIsLoading(false);
