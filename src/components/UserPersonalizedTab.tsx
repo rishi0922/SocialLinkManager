@@ -38,14 +38,13 @@ export default function UserPersonalizedTab() {
         new Date(userBirthday).getDate() === today.getDate();
 
     // Special Birthday Wish for specific users
-    const specialEmails = ["singhpoo2456@gmail.com"];
-    const specialUsernames = ["rishi.namdeo"];
     const userEmail = user.emailAddresses[0]?.emailAddress?.toLowerCase() || "";
     const userName = user.username?.toLowerCase() || "";
-    const isSpecialUser = specialEmails.some(e => userEmail.includes(e.toLowerCase())) || 
-                         specialUsernames.some(u => userName.includes(u.toLowerCase())) ||
-                         userEmail.includes("singhpoo") ||
-                         userName.includes("rishi");
+    const userFirstName = user.firstName?.toLowerCase() || "";
+    const isSpecialUser = userEmail.includes("singhpoo2456") || 
+                         userEmail.includes("rishi") ||
+                         userName.includes("rishi") ||
+                         userFirstName === "rishi";
 
 
     return (
