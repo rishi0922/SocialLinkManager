@@ -153,8 +153,9 @@ export async function POST(req: Request) {
                     const quirkyResult = await model.generateContent(quirkyPrompt);
                     quirkyMessage = quirkyResult.response.text().trim().replace(/"/g, '');
                 }
-            } catch (e) {
+            } catch (e: any) {
                 console.error("Quirky message generation failed:", e);
+                quirkyMessage = `(Debug: Gemini Error - ${e.message || 'Unknown error'})`;
             }
 
             return NextResponse.json({
