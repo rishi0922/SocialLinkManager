@@ -2,7 +2,7 @@
 
 import { useUser } from "@clerk/nextjs";
 import { motion } from "framer-motion";
-import { Sparkles, Library, Zap, Database, Cake, User } from "lucide-react";
+import { Sparkles, Library, Zap, Database, User } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -39,23 +39,6 @@ export default function UserPersonalizedTab({ refreshKey }: { refreshKey?: numbe
     // Generate a consistent random avatar based on the user's ID
     const randomAvatar = `https://api.dicebear.com/7.x/shapes/svg?seed=${user.id}&backgroundColor=1e1b4b,312e81,4338ca`;
 
-    // Birthday Logic
-    const today = new Date();
-    const userBirthday = (user as any).birthday;
-    const isBirthday = userBirthday && 
-        new Date(userBirthday).getMonth() === today.getMonth() && 
-        new Date(userBirthday).getDate() === today.getDate();
-
-    // Special Birthday Wish for specific users
-    const userEmail = user.emailAddresses[0]?.emailAddress?.toLowerCase() || "";
-    const userName = user.username?.toLowerCase() || "";
-    const userFirstName = user.firstName?.toLowerCase() || "";
-    const isSpecialUser = userEmail.includes("singhpoo2456") || 
-                         userEmail.includes("rishi") ||
-                         userName.includes("rishi") ||
-                         userFirstName === "rishi";
-
-
     return (
         <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -83,15 +66,6 @@ export default function UserPersonalizedTab({ refreshKey }: { refreshKey?: numbe
                                     className="object-cover"
                                 />
                             </div>
-                            {isBirthday && (
-                                <motion.div 
-                                    animate={{ scale: [1, 1.2, 1] }}
-                                    transition={{ repeat: Infinity, duration: 2 }}
-                                    className="absolute -top-2 -left-2 bg-pink-500 p-1.5 rounded-lg shadow-lg"
-                                >
-                                    <Cake className="w-3.5 h-3.5 text-white" />
-                                </motion.div>
-                            )}
                             <div className="absolute -bottom-2 -right-2 bg-indigo-500 p-1.5 rounded-lg shadow-lg">
                                 <Sparkles className="w-3.5 h-3.5 text-white" />
                             </div>
@@ -108,24 +82,12 @@ export default function UserPersonalizedTab({ refreshKey }: { refreshKey?: numbe
                                 </div>
                             </div>
                             <p className="text-slate-400 text-sm sm:text-base max-w-md">
-                                {isSpecialUser 
-                                    ? `Happy birtday pagal aurat 🎉` 
-                                    : (isBirthday 
-                                        ? `Happy Birthday, ${firstName}! 🎉 Wishing you an incredible day of discovery and curation.`
-                                        : "Your digital library is growing. Gemini is analyzing your latest links to find hidden patterns.")
-                                }
+                                Your digital library is growing. Gemini is analyzing your latest links to find hidden patterns.
                             </p>
                         </div>
 
                         <div className="flex gap-4 sm:flex-col justify-center border-t sm:border-t-0 sm:border-l border-white/5 pt-4 sm:pt-0 sm:pl-6 w-full sm:w-auto">
-                            {(isBirthday || isSpecialUser) && (
-                                <div className="flex flex-col items-center sm:items-start animate-bounce">
-                                    <span className="text-[10px] uppercase tracking-widest text-pink-500 font-bold mb-1 flex items-center gap-1.5">
-                                        <Cake className="w-3 h-3" /> {isSpecialUser && !isBirthday ? 'Message' : 'Birthday'}
-                                    </span>
-                                    <span className="text-pink-300 font-medium text-sm">🎉🥳🥂🍻🎂</span>
-                                </div>
-                            )}
+
                             <div className="flex flex-col items-center sm:items-start">
                                 <span className="text-[10px] uppercase tracking-widest text-slate-500 font-semibold mb-1 flex items-center gap-1.5">
                                     <Database className="w-3 h-3" /> Library
