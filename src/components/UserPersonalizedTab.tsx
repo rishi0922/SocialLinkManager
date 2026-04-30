@@ -2,7 +2,7 @@
 
 import { useUser } from "@clerk/nextjs";
 import { motion } from "framer-motion";
-import { Sparkles, Library, Zap, Database, User } from "lucide-react";
+import { Library, Zap, Database, User } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -66,9 +66,6 @@ export default function UserPersonalizedTab({ refreshKey }: { refreshKey?: numbe
                                     className="object-cover"
                                 />
                             </div>
-                            <div className="absolute -bottom-2 -right-2 bg-indigo-500 p-1.5 rounded-lg shadow-lg">
-                                <Sparkles className="w-3.5 h-3.5 text-white" />
-                            </div>
                         </div>
 
                         {/* Content Section */}
@@ -98,9 +95,9 @@ export default function UserPersonalizedTab({ refreshKey }: { refreshKey?: numbe
                             </div>
                             <div className="flex flex-col items-center sm:items-start">
                                 <span className="text-[10px] uppercase tracking-widest text-slate-500 font-semibold mb-1 flex items-center gap-1.5">
-                                    <User className="w-3 h-3" /> Profile
+                                    <User className="w-3 h-3" /> Rank
                                 </span>
-                                <span className="text-pink-300 font-medium text-sm">Custom</span>
+                                <span className="text-pink-300 font-medium text-sm">{getCuratorTag(linkCount)}</span>
                             </div>
                         </div>
                     </div>
