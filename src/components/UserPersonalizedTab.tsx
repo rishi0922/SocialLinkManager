@@ -2,7 +2,7 @@
 
 import { useUser } from "@clerk/nextjs";
 import { motion } from "framer-motion";
-import { Library, Zap, Database, User } from "lucide-react";
+import { Database, User } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
