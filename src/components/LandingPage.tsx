@@ -51,7 +51,7 @@ export default function LandingPage() {
           <span>The Future of Bookmarking is Here</span>
         </div>
         
-        <h1 className="text-5xl sm:text-6xl md:text-8xl font-extrabold tracking-tight mb-8 animate-fade-in-up animation-delay-100">
+        <h1 className="text-4xl sm:text-6xl md:text-8xl font-extrabold tracking-tight mb-8 animate-fade-in-up animation-delay-100">
           Your Second Brain for <br className="hidden md:block" />
           <span className="gradient-text">The Internet</span>
         </h1>
@@ -60,9 +60,9 @@ export default function LandingPage() {
           Stop losing great content in an ocean of open tabs. Social Link Manager intelligently curates your digital life, turning chaos into a beautifully organized library.
         </p>
         
-        <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-300">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-300 w-full sm:w-auto">
           <SignInButton mode="modal">
-            <button className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-300 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-2xl hover:scale-105 hover:shadow-[0_0_40px_rgba(236,72,153,0.5)] active:scale-95 overflow-hidden">
+            <button className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-4 font-bold text-white transition-all duration-300 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-2xl hover:scale-105 hover:shadow-[0_0_40px_rgba(236,72,153,0.5)] active:scale-95 overflow-hidden w-full sm:w-auto">
               <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-64 group-hover:h-56 opacity-10"></span>
               <span className="relative flex items-center gap-2">
                 Start Curating for Free
@@ -87,7 +87,7 @@ export default function LandingPage() {
                         <div className="w-8 h-8 rounded-full bg-white/5" />
                     </div>
                  </div>
-                 <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
+                 <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-hidden">
                     {[1,2,3].map((i) => (
                         <div key={i} className="rounded-xl border border-white/5 bg-white/[0.02] overflow-hidden flex flex-col relative group/card">
                             <div className="h-32 bg-white/5 w-full relative overflow-hidden">
@@ -121,7 +121,7 @@ export default function LandingPage() {
           {features.map((feature, idx) => (
             <div 
               key={idx} 
-              className="glass-card p-8 group hover:-translate-y-1 transition-all duration-300"
+              className="glass-card p-6 sm:p-8 group hover:-translate-y-1 transition-all duration-300"
             >
               <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-white/10 transition-all duration-300 shadow-lg">
                 {feature.icon}
@@ -139,7 +139,7 @@ export default function LandingPage() {
 
       {/* Bottom CTA */}
       <section className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto text-center">
-        <div className="glass-card p-12 md:p-16 relative overflow-hidden group">
+        <div className="glass-card p-8 sm:p-12 md:p-16 relative overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10 opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="relative z-10">
             <h2 className="text-3xl md:text-5xl font-bold mb-6">Ready to clear the clutter?</h2>

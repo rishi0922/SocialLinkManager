@@ -78,7 +78,7 @@ export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
                     "absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-500",
                     isLoading && "opacity-70 animate-pulse"
                 )}></div>
-                <div className="relative flex flex-col bg-[#131b2f] border border-white/10 rounded-2xl p-1.5 sm:p-2 shadow-2xl transition-all">
+                <div className="relative flex flex-col bg-[#131b2f] border border-white/10 rounded-2xl p-1.5 sm:p-2 shadow-2xl transition-all w-full min-w-0">
                     <div className="flex items-center w-full">
                         <div className="pl-4 pr-3 text-slate-400">
                             <LinkIcon className="w-6 h-6" />
@@ -88,7 +88,7 @@ export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
                             value={url}
                             onChange={(e) => setUrl(e.target.value)}
                             placeholder="Paste any URL here..."
-                            className="flex-1 bg-transparent text-slate-200 placeholder-slate-500 outline-none text-base sm:text-lg py-3"
+                            className="flex-1 bg-transparent text-slate-200 placeholder-slate-500 outline-none text-base sm:text-lg py-3 w-full min-w-0"
                             required
                             ref={inputRef}
                         />
@@ -117,7 +117,7 @@ export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
                             value={note}
                             onChange={(e) => setNote(e.target.value)}
                             placeholder="Add a custom note or tag (optional)"
-                            className="flex-1 bg-transparent text-slate-400 placeholder-slate-600 outline-none text-sm py-2"
+                            className="flex-1 bg-transparent text-slate-400 placeholder-slate-600 outline-none text-sm py-2 w-full min-w-0"
                         />
                     </div>
                 </div>

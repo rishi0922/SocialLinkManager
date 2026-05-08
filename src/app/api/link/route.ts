@@ -11,8 +11,30 @@ export async function GET() {
         const { userId } = await auth();
         if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-        const links = await sql`SELECT * FROM links WHERE user_id = ${userId} ORDER BY created_at DESC;`;
-        return NextResponse.json({ success: true, data: links });
+        try {
+            const links = await sql`SELECT * FROM links WHERE user_id = ${userId} ORDER BY created_at DESC;`;
+            return NextResponse.json({ success: true, data: links });
+        } catch (dbError: any) {
+            // Error code 42P01 means relation does not exist (common in Vercel preview branches)
+            if (dbError.code === '42P01') {
+                console.log("Table 'links' does not exist. Creating it automatically...");
+                await sql`
+                    CREATE TABLE IF NOT EXISTS public.links (
+                        id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+                        url TEXT NOT NULL,
+                        title TEXT,
+                        description TEXT,
+                        image_url TEXT,
+                        category TEXT,
+                        note TEXT,
+                        user_id TEXT,
+                        created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+                    );
+                `;
+                return NextResponse.json({ success: true, data: [] });
+            }
+            throw dbError;
+        }
     } catch (error) {
         console.error("Error fetching links:", error);
         return NextResponse.json({ error: 'Failed to fetch links' }, { status: 500 });
@@ -132,14 +154,42 @@ export async function POST(req: Request) {
         };
 
         // 3. Save to Neon
+        let insertedData;
         try {
-            const insertedData = await sql`
-                INSERT INTO links (url, title, description, image_url, category, user_id, note)
-                VALUES (${processedData.url}, ${processedData.title}, ${processedData.description}, ${processedData.image_url}, ${processedData.category}, ${userId}, ${processedData.note})
-                RETURNING *;
-            `;
-
-            // 4. Pick quirky message based on URL and category
+            try {
+                insertedData = await sql`
+                    INSERT INTO links (url, title, description, image_url, category, user_id, note)
+                    VALUES (${processedData.url}, ${processedData.title}, ${processedData.description}, ${processedData.image_url}, ${processedData.category}, ${userId}, ${processedData.note})
+                    RETURNING *;
+                `;
+            } catch (dbError: any) {
+                if (dbError.code === '42P01') {
+                    await sql`
+                        CREATE TABLE IF NOT EXISTS public.links (
+                            id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+                            url TEXT NOT NULL,
+                            title TEXT,
+                            description TEXT,
+                            image_url TEXT,
+                            category TEXT,
+                            note TEXT,
+                            user_id TEXT,
+                            created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+                        );
+                    `;
+                    insertedData = await sql`
+                        INSERT INTO links (url, title, description, image_url, category, user_id, note)
+                        VALUES (${processedData.url}, ${processedData.title}, ${processedData.description}, ${processedData.image_url}, ${processedData.category}, ${userId}, ${processedData.note})
+                        RETURNING *;
+                    `;
+                } else {
+                    throw dbError;
+                }
+            }
+        } catch (dbError) {
+            console.error("Neon Error:", dbError);
+            return NextResponse.json({ error: 'Failed to save to database', details: dbError }, { status: 500 });
+        }
             const pick = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
 
             const messages: Record<string, string[]> = {
@@ -192,11 +242,6 @@ export async function POST(req: Request) {
                 data: insertedData[0],
                 quirkyMessage: quirkyMessage
             });
-
-        } catch (dbError) {
-            console.error("Neon Error:", dbError);
-            return NextResponse.json({ error: 'Failed to save to database', details: dbError }, { status: 500 });
-        }
 
     } catch (error) {
         console.error("Error processing link:", error);

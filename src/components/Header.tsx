@@ -26,13 +26,13 @@ export default function Header() {
                     : "py-5 bg-slate-950/80 backdrop-blur-xl border-transparent"
             )}
         >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center gap-2">
                 {/* Cool Logo */}
                 <div className="font-bold text-xl tracking-tight text-white flex items-center gap-2.5 group cursor-pointer">
                     <div className="relative flex items-center justify-center p-1.5 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 shadow-[0_0_20px_rgba(99,102,241,0.4)] group-hover:shadow-[0_0_25px_rgba(236,72,153,0.6)] transition-all duration-300">
                         <Hexagon className="w-6 h-6 text-white fill-white/20" />
                     </div>
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 group-hover:from-indigo-200 group-hover:to-pink-200 transition-colors duration-300">
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 group-hover:from-indigo-200 group-hover:to-pink-200 transition-colors duration-300 hidden sm:block">
                         LinkManager
                     </span>
                 </div>
