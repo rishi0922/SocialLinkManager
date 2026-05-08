@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Link as LinkIcon, Loader2, BookmarkPlus, Sparkles, PartyPopper } from "lucide-react";
+import { useState, useRef } from "react";
+import { Link as LinkIcon, Loader2, Sparkles, PartyPopper } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -9,14 +9,7 @@ export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
     const [url, setUrl] = useState("");
     const [note, setNote] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [currentOrigin, setCurrentOrigin] = useState("");
     const [quirkyMessage, setQuirkyMessage] = useState("");
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            setCurrentOrigin(window.location.origin);
-        }
-    }, []);
 
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -123,33 +116,7 @@ export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
                 </div>
             </form>
 
-            {currentOrigin && (
-                <div className="mt-6 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div className="text-sm text-slate-400 text-center md:text-left">
-                        <p className="font-semibold text-slate-300">Quick Save via Bookmarklet</p>
-                        <p>Drag this button to your bookmarks bar. Click it on any website to save the link instantly!</p>
-                        <button
-                            onClick={(e) => {
-                                e.preventDefault();
-                                navigator.clipboard.writeText(`javascript:(function(){window.location.href='${currentOrigin}/share?url='+encodeURIComponent(window.location.href)+'&text='+encodeURIComponent(document.title);})();`);
-                                alert("Bookmarklet copied! Create a new bookmark in your browser and paste this code as the URL.");
-                            }}
-                            className="text-xs text-indigo-400 hover:text-indigo-300 mt-1"
-                        >
-                            Dragging not working? Click here to copy the code manually.
-                        </button>
-                    </div>
-                    <a
-                        href={`javascript:(function(){window.location.href='${currentOrigin}/share?url='+encodeURIComponent(window.location.href)+'&text='+encodeURIComponent(document.title);})();`}
-                        onClick={(e) => e.preventDefault()}
-                        className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-sm font-medium text-slate-300 w-fit cursor-grab transition-colors"
-                        title="Drag to bookmarks bar"
-                    >
-                        <BookmarkPlus className="w-4 h-4" />
-                        Save to LinkManager
-                    </a>
-                </div>
-            )}
+
         </div>
     );
 }
