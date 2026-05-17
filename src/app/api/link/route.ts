@@ -11,31 +11,18 @@ export async function GET() {
         const { userId } = await auth();
         if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-        try {
-            const links = await sql`SELECT * FROM links WHERE user_id = ${userId} ORDER BY created_at DESC;`;
-            return NextResponse.json({ success: true, data: links });
-        } catch (dbError: any) {
-            // Error code 42P01 means relation does not exist (common in Vercel preview branches)
-            if (dbError.code === '42P01') {
-                console.log("Table 'links' does not exist. Creating it automatically...");
-                await sql`
-                    CREATE TABLE IF NOT EXISTS public.links (
-                        id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-                        url TEXT NOT NULL,
-                        title TEXT,
-                        description TEXT,
-                        image_url TEXT,
-                        category TEXT,
-                        note TEXT,
-                        user_id TEXT,
-                        created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
-                    );
-                `;
-                return NextResponse.json({ success: true, data: [] });
-            }
-            throw dbError;
+        const links = await sql`SELECT * FROM links WHERE user_id = ${userId} ORDER BY created_at DESC;`;
+        return NextResponse.json({ success: true, data: links });
+    } catch (error: any) {
+        // Don't silently auto-create the table on read — that hides "wrong database connected"
+        // bugs by making an empty DB look identical to "user has no links".
+        if (error?.code === '42P01') {
+            console.error("CRITICAL: 'links' table missing on the connected database. Check DATABASE_URL is pointing at the right Neon branch.");
+            return NextResponse.json({
+                error: "Database is not initialized on this connection. The 'links' table is missing — verify DATABASE_URL points at the correct Neon branch, then run database.sql against it.",
+                code: 'TABLE_MISSING',
+            }, { status: 500 });
         }
-    } catch (error) {
         console.error("Error fetching links:", error);
         return NextResponse.json({ error: 'Failed to fetch links' }, { status: 500 });
     }
