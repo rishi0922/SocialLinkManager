@@ -75,19 +75,17 @@ export default function LinkCard({ link, index, onDelete }: { link: LinkType; in
             )}
 
             {/* Content */}
-            <div className="p-4 sm:p-5 flex-1 flex flex-col min-w-0 space-y-3">
+            <div className="p-4 sm:p-5 flex-1 flex flex-col min-w-0 gap-3">
                 <div className="flex justify-between items-start gap-2 min-w-0">
-                    <h3 className="text-sm sm:text-base font-semibold leading-snug line-clamp-2 text-slate-100 group-hover:text-indigo-300 transition-colors duration-200 min-w-0">
+                    <h3 className="text-sm sm:text-base font-semibold leading-snug line-clamp-2 text-slate-100 group-hover:text-indigo-300 transition-colors duration-200 min-w-0 min-h-[2.4rem] sm:min-h-[2.75rem]">
                         {link.title}
                     </h3>
                     <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-indigo-400 opacity-0 group-hover:opacity-100 transition-all duration-200 flex-shrink-0 mt-1" />
                 </div>
 
-                {link.description && (
-                    <p className="text-xs sm:text-sm text-slate-400 line-clamp-2 min-w-0 break-words leading-relaxed">
-                        {link.description}
-                    </p>
-                )}
+                <p className="text-xs sm:text-sm text-slate-400 line-clamp-2 min-w-0 break-words leading-relaxed min-h-[2.45rem] sm:min-h-[2.85rem]">
+                    {link.description}
+                </p>
 
                 {link.note && (
                     <motion.div
