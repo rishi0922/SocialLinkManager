@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { sql } from '@/lib/db';
+import { recordAudit } from '@/lib/audit';
 import { auth } from '@clerk/nextjs/server';
 
 // Initialize Gemini API
@@ -177,6 +178,19 @@ export async function POST(req: Request) {
             console.error("Neon Error:", dbError);
             return NextResponse.json({ error: 'Failed to save to database', details: dbError }, { status: 500 });
         }
+
+        // Record audit log (fire-and-forget; never blocks the response).
+        await recordAudit({
+            userId,
+            action: 'insert',
+            linkId: insertedData[0]?.id ?? null,
+            url: processedData.url,
+            requestInfo: {
+                userAgent: req.headers.get('user-agent') ?? undefined,
+                referer: req.headers.get('referer') ?? undefined,
+            },
+        });
+
             const pick = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
 
             const messages: Record<string, string[]> = {
@@ -250,6 +264,17 @@ export async function DELETE(req: Request) {
 
         // Delete but ensure it's scoped to the user
         await sql`DELETE FROM links WHERE id = ${id} AND user_id = ${userId}`;
+
+        // Record audit log for the delete
+        await recordAudit({
+            userId,
+            action: 'delete',
+            linkId: id,
+            requestInfo: {
+                userAgent: req.headers.get('user-agent') ?? undefined,
+                referer: req.headers.get('referer') ?? undefined,
+            },
+        });
 
         return NextResponse.json({ success: true });
     } catch (error) {

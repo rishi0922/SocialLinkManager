@@ -66,55 +66,68 @@ export default function CreateLink({ onSuccess }: { onSuccess: () => void }) {
                 )}
             </AnimatePresence>
 
-            <form onSubmit={handleSubmit} className="relative group">
+            <motion.form
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                onSubmit={handleSubmit}
+                className="relative group"
+            >
                 <div className={cn(
-                    "absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-500",
-                    isLoading && "opacity-70 animate-pulse"
+                    "absolute -inset-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-500",
+                    isLoading && "opacity-40 animate-pulse"
                 )}></div>
-                <div className="relative flex flex-col bg-[#131b2f] border border-white/10 rounded-2xl p-1.5 sm:p-2 shadow-2xl transition-all w-full min-w-0">
-                    <div className="flex items-center w-full">
-                        <div className="pl-4 pr-3 text-slate-400">
-                            <LinkIcon className="w-6 h-6" />
+                <div className="relative flex flex-col bg-gradient-to-b from-slate-900/40 to-slate-900/20 border border-white/15 hover:border-indigo-500/40 rounded-3xl p-2 shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all w-full min-w-0 group">
+                    {/* URL Input Row */}
+                    <div className="flex items-center w-full px-1">
+                        <div className="pl-4 pr-3 text-slate-500 group-focus-within:text-indigo-400 transition-colors duration-200">
+                            <LinkIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                         </div>
                         <input
                             type="url"
                             value={url}
                             onChange={(e) => setUrl(e.target.value)}
                             placeholder="Paste any URL here..."
-                            className="flex-1 bg-transparent text-slate-200 placeholder-slate-500 outline-none text-base sm:text-lg py-3 w-full min-w-0"
+                            className="flex-1 bg-transparent text-slate-200 placeholder-slate-600 outline-none text-base sm:text-lg py-3 sm:py-4 w-full min-w-0 transition-colors duration-200"
                             required
                             ref={inputRef}
                         />
-                        <button
+                        <motion.button
                             type="submit"
                             disabled={isLoading || !url}
-                            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white p-3 px-4 sm:px-6 rounded-xl font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white px-4 sm:px-6 py-2.5 sm:py-3 m-1 rounded-xl font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg hover:shadow-[0_8px_24px_rgba(99,102,241,0.4)]"
                         >
                             {isLoading ? (
                                 <Loader2 className="w-5 h-5 animate-spin" />
                             ) : (
                                 <>
-                                    <Sparkles className="w-5 h-5 text-indigo-200" />
-                                    <span className="hidden sm:inline">Save & Analyze</span>
+                                    <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
+                                    <span className="hidden sm:inline text-sm sm:text-base">Save & Analyze</span>
+                                    <span className="sm:hidden">Save</span>
                                 </>
                             )}
-                        </button>
+                        </motion.button>
                     </div>
-                    <div className="w-full h-px bg-white/5 my-1 ml-4 mr-4" />
-                    <div className="flex items-center w-full">
-                        <div className="pl-4 pr-3 text-slate-500">
-                            <Sparkles className="w-4 h-4" />
+
+                    {/* Divider */}
+                    <div className="h-px bg-gradient-to-r from-white/0 via-white/10 to-white/0 my-2 mx-2" />
+
+                    {/* Note Input Row */}
+                    <div className="flex items-center w-full px-1">
+                        <div className="pl-4 pr-3 text-slate-600 group-focus-within:text-indigo-500 transition-colors duration-200">
+                            <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
                         </div>
                         <input
                             type="text"
                             value={note}
                             onChange={(e) => setNote(e.target.value)}
-                            placeholder="Add a custom note or tag (optional)"
-                            className="flex-1 bg-transparent text-slate-400 placeholder-slate-600 outline-none text-sm py-2 w-full min-w-0"
+                            placeholder="Add a custom note (optional)"
+                            className="flex-1 bg-transparent text-slate-400 placeholder-slate-600 outline-none text-sm py-2.5 sm:py-3 w-full min-w-0 transition-colors duration-200"
                         />
                     </div>
                 </div>
-            </form>
+            </motion.form>
 
 
         </div>

@@ -37,25 +37,30 @@ export default function Home() {
             <div className="max-w-5xl mx-auto space-y-12 relative z-10">
 
                 {/* Dashboard Header Section */}
-                <header className="text-center space-y-4 pt-4 pb-8">
-                <div className="inline-block p-1 px-4 rounded-full glass mb-4 border-indigo-500/30 text-indigo-300 text-sm font-medium tracking-wide shadow-[0_0_15px_rgba(99,102,241,0.2)]">
-                    Dashboard
+                <header className="text-center space-y-6 pt-8 pb-12">
+                <div className="inline-block p-2 px-5 rounded-full glass mb-6 border-indigo-500/40 text-indigo-300 text-xs sm:text-sm font-semibold tracking-wider uppercase shadow-[0_0_20px_rgba(99,102,241,0.3)] hover:shadow-[0_0_30px_rgba(99,102,241,0.5)] transition-shadow duration-300">
+                    ✨ Dashboard
                 </div>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
-                    Manage your <span className="gradient-text">digital library</span>
-                </h1>
+                <div className="space-y-3">
+                  <h1 className="text-display">
+                    Manage your <span className="gradient-text animate-pulse-slow">digital library</span>
+                  </h1>
+                  <p className="text-slate-400 text-subheading font-normal max-w-2xl mx-auto leading-relaxed">
+                    Save, organize, and discover your favorite links with AI-powered categorization
+                  </p>
+                </div>
                 </header>
 
                 {/* Personalized User Tab */}
                 <UserPersonalizedTab refreshKey={refreshKey} />
 
                 {/* Input Form */}
-                <section className="max-w-2xl mx-auto">
+                <section className="max-w-2xl mx-auto animate-fade-in-up animation-delay-100">
                 <CreateLink onSuccess={handleLinkAdded} />
                 </section>
 
                 {/* List & Search */}
-                <section className="pt-10 border-t border-white/5">
+                <section className="pt-16 border-t border-white/10 animate-fade-in-up animation-delay-200">
                 <LinkList triggerRefetch={refreshKey} onDelete={handleLinkDeleted} />
                 </section>
 

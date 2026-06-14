@@ -63,10 +63,10 @@ export default function LinkList({ triggerRefetch, onDelete }: { triggerRefetch:
     );
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-10">
             {/* Search Bar */}
-            <div className="relative max-w-md mx-auto">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+            <div className="relative max-w-md mx-auto w-full px-4 sm:px-0">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                     <Search className="h-5 w-5" />
                 </div>
                 <input
@@ -74,20 +74,24 @@ export default function LinkList({ triggerRefetch, onDelete }: { triggerRefetch:
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Search links or labels..."
-                    className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-xl outline-none focus:border-indigo-500 transition-colors"
+                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl outline-none focus:border-indigo-500 focus:bg-white/[0.08] focus:shadow-[0_0_20px_rgba(99,102,241,0.2)] transition-all duration-300 text-slate-100 placeholder-slate-500"
                 />
             </div>
 
             {isLoading ? (
-                <div className="flex justify-center items-center py-20 text-slate-500">
-                    <Loader2 className="w-8 h-8 animate-spin" />
+                <div className="flex flex-col justify-center items-center py-24 space-y-4">
+                    <Loader2 className="w-10 h-10 animate-spin text-indigo-400" />
+                    <p className="text-slate-400 text-sm">Loading your collection...</p>
                 </div>
             ) : filteredLinks.length === 0 ? (
-                <div className="text-center py-20 text-slate-500">
-                    No links found. Add your first link above!
+                <div className="text-center py-24 space-y-4 px-4">
+                    <p className="text-2xl font-semibold text-slate-300">No links found</p>
+                    <p className="text-slate-400 max-w-md mx-auto">
+                        {search ? "Try adjusting your search terms" : "Add your first link to get started!"}
+                    </p>
                 </div>
             ) : (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-0">
                     {filteredLinks.map((link, index) => (
                         <LinkCard key={link.id} link={link} index={index} onDelete={handleDelete} />
                     ))}
